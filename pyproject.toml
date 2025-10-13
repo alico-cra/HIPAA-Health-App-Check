@@ -1,0 +1,11 @@
+[project]
+name = "hippa-health-app-check"
+version = "0.1.0"
+description = "Unofficial examination tool for aiding tool developers on health security steps they should be taking. Based on the FTC tool."
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = []
+authors = [{ name = "Nick Alico", email = "nalico@cra.com" }]
+
+[dependency-groups]
+dev = ["pylint>=4.0.0"]
