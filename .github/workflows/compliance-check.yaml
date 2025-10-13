@@ -52,7 +52,7 @@ jobs:
             - name: Checkout source repository (where main python validation logic lives)
               uses: actions/checkout@v4
               with:
-                  repository: ARPA-H-BDF/bdfkb-schema
+                  repository: alico-cra/HIPAA-Health-App-Check
                   ref: ${{ inputs.validation-branch }}
                   path: validation-source
 
@@ -68,6 +68,7 @@ jobs:
                   echo ""
 
                   # Capture output and exit code
+                  ls
                   set +e
                   python ./validation-source/main.py compliance-config.json 2>&1 | tee compliance_output.txt
                   EXIT_CODE=$?
