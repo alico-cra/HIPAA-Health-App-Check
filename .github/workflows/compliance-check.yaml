@@ -69,7 +69,7 @@ jobs:
 
                   # Capture output and exit code
                   set +e
-                  python "${{ inputs.compliance-config-path }}" compliance-config.json 2>&1 | tee compliance_output.txt
+                  python ./validation-source/main.py compliance-config.json 2>&1 | tee compliance_output.txt
                   EXIT_CODE=$?
                   set -e
 
