@@ -4,139 +4,138 @@ name: Health App Compliance Assessment (Reusable)
 # Place this in your template repo at: .github/workflows/compliance-check.yaml
 
 on:
-    workflow_call:
-        inputs:
-            python-version:
-                description: "Python version to use"
-                required: false
-                type: string
-                default: "3.13"
-            validation-branch:
-                required: false
-                type: string
-                default: "main"
-            compliance-config-path:
-                description: "Path to main.py file relative to repo root"
-                required: false
-                type: string
-                default: "main.py"
-            fail-on-warnings:
-                description: "Fail the workflow if critical warnings are detected"
-                required: false
-                type: boolean
-                default: true
-            upload-report:
-                description: "Upload compliance report as artifact"
-                required: false
-                type: boolean
-                default: true
-        outputs:
-            has-warnings:
-                description: "Whether critical warnings were detected"
-                value: ${{ jobs.compliance-assessment.outputs.has-warnings }}
-            applicable-laws:
-                description: "Number of applicable laws identified"
-                value: ${{ jobs.compliance-assessment.outputs.applicable-laws }}
+  workflow_call:
+    inputs:
+      python-version:
+        description: "Python version to use"
+        required: false
+        type: string
+        default: "3.13"
+      validation-branch:
+        required: false
+        type: string
+        default: "main"
+      compliance-config-path:
+        description: "Path to main.py file relative to repo root"
+        required: false
+        type: string
+        default: "main.py"
+      fail-on-warnings:
+        description: "Fail the workflow if critical warnings are detected"
+        required: false
+        type: boolean
+        default: true
+      upload-report:
+        description: "Upload compliance report as artifact"
+        required: false
+        type: boolean
+        default: true
+    outputs:
+      has-warnings:
+        description: "Whether critical warnings were detected"
+        value: ${{ jobs.compliance-assessment.outputs.has-warnings }}
+      applicable-laws:
+        description: "Number of applicable laws identified"
+        value: ${{ jobs.compliance-assessment.outputs.applicable-laws }}
 
 jobs:
-    compliance-assessment:
-        runs-on: ubuntu-latest
-        outputs:
-            has-warnings: ${{ steps.run-check.outputs.has-warnings }}
-            applicable-laws: ${{ steps.run-check.outputs.applicable-laws }}
+  compliance-assessment:
+    runs-on: ubuntu-latest
+    outputs:
+      has-warnings: ${{ steps.run-check.outputs.has-warnings }}
+      applicable-laws: ${{ steps.run-check.outputs.applicable-laws }}
 
-        steps:
-            - name: Checkout calling repository
-              uses: actions/checkout@v4
+    steps:
+      - name: Checkout calling repository
+        uses: actions/checkout@v4
 
-            - name: Checkout source repository (where main python validation logic lives)
-              uses: actions/checkout@v4
-              with:
-                  repository: alico-cra/HIPAA-Health-App-Check
-                  ref: ${{ inputs.validation-branch }}
-                  path: validation-source
+      - name: Checkout source repository (where main python validation logic lives)
+        uses: actions/checkout@v4
+        with:
+          repository: alico-cra/HIPAA-Health-App-Check
+          ref: ${{ inputs.validation-branch }}
+          path: validation-source
 
-            - name: Set up Python
-              uses: actions/setup-python@v5
-              with:
-                  python-version: ${{ inputs.python-version }}
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ inputs.python-version }}
 
-            - name: Run compliance assessment
-              id: run-check
-              run: |
-                  echo "Running health app compliance assessment..."
-                  echo ""
+      - name: Run compliance assessment
+        id: run-check
+        run: |
+          echo "Running health app compliance assessment..."
+          echo ""
 
-                  # Capture output and exit code
-                  ls
-                  set +e
-                  python ./validation-source/main.py compliance-config.json 2>&1 | tee compliance_output.txt
-                  EXIT_CODE=$?
-                  set -e
+          # Capture output and exit code
+          set +e
+          python ./validation-source/main.py compliance-config.json 2>&1 | tee compliance_output.txt
+          EXIT_CODE=$?
+          set -e
 
-                  # Set outputs
-                  if [ $EXIT_CODE -ne 0 ]; then
-                    echo "has-warnings=true" >> $GITHUB_OUTPUT
-                    echo "::warning::Critical compliance warnings detected"
-                  else
-                    echo "has-warnings=false" >> $GITHUB_OUTPUT
-                  fi
+          # Set outputs
+          if [ $EXIT_CODE -ne 0 ]; then
+            echo "has-warnings=true" >> $GITHUB_OUTPUT
+            echo "::warning::Critical compliance warnings detected"
+          else
+            echo "has-warnings=false" >> $GITHUB_OUTPUT
+          fi
 
-                  # Count applicable laws (approximate from output)
-                  LAWS_COUNT=$(grep -c "✓" compliance_output.txt || echo "0")
-                  echo "applicable-laws=$LAWS_COUNT" >> $GITHUB_OUTPUT
+          # Count applicable laws (approximate from output)
+          LAWS_COUNT=$(grep -c "✓" compliance_output.txt || echo "0")
+          echo "applicable-laws=$LAWS_COUNT" >> $GITHUB_OUTPUT
 
-                  # Store exit code for later
-                  echo $EXIT_CODE > exit_code.txt
-              continue-on-error: true
+          # Store exit code for later
+          echo $EXIT_CODE > exit_code.txt
+        continue-on-error: true
 
-            - name: Generate compliance summary
-              if: always()
-              run: |
-                  echo "## 🏥 Health App Compliance Assessment Summary" >> $GITHUB_STEP_SUMMARY
-                  echo "" >> $GITHUB_STEP_SUMMARY
+      - name: Generate compliance summary
+        if: always()
+        run: |
+          echo "## 🏥 Health App Compliance Assessment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
 
-                  if [ "${{ steps.run-check.outputs.has-warnings }}" == "true" ]; then
-                    echo "### ⚠️ Status: WARNINGS DETECTED" >> $GITHUB_STEP_SUMMARY
-                    echo "" >> $GITHUB_STEP_SUMMARY
-                    echo "Critical compliance warnings were identified. Please review the detailed report below." >> $GITHUB_STEP_SUMMARY
-                  else
-                    echo "### ✅ Status: No Critical Warnings" >> $GITHUB_STEP_SUMMARY
-                    echo "" >> $GITHUB_STEP_SUMMARY
-                    echo "No critical compliance warnings detected, but please review applicable regulations." >> $GITHUB_STEP_SUMMARY
-                  fi
+          if [ "${{ steps.run-check.outputs.has-warnings }}" == "true" ]; then
+            echo "### ⚠️ Status: WARNINGS DETECTED" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "Critical compliance warnings were identified. Please review the detailed report below." >> $GITHUB_STEP_SUMMARY
+          else
+            echo "### ✅ Status: No Critical Warnings" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "No critical compliance warnings detected, but please review applicable regulations." >> $GITHUB_STEP_SUMMARY
+          fi
 
-                  echo "" >> $GITHUB_STEP_SUMMARY
-                  echo "**Applicable Laws/Regulations:** ${{ steps.run-check.outputs.applicable-laws }}" >> $GITHUB_STEP_SUMMARY
-                  echo "" >> $GITHUB_STEP_SUMMARY
-                  echo "### 📋 Full Report" >> $GITHUB_STEP_SUMMARY
-                  echo "" >> $GITHUB_STEP_SUMMARY
-                  echo '```' >> $GITHUB_STEP_SUMMARY
-                  cat compliance_output.txt >> $GITHUB_STEP_SUMMARY
-                  echo '```' >> $GITHUB_STEP_SUMMARY
-                  echo "" >> $GITHUB_STEP_SUMMARY
-                  echo "---" >> $GITHUB_STEP_SUMMARY
-                  echo "⚖️ **Disclaimer:** This automated assessment provides informational guidance only and does not constitute legal advice." >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Applicable Laws/Regulations:** ${{ steps.run-check.outputs.applicable-laws }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### 📋 Full Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          cat compliance_output.txt >> $GITHUB_STEP_SUMMARY
+          echo '```' >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "---" >> $GITHUB_STEP_SUMMARY
+          echo "⚖️ **Disclaimer:** This automated assessment provides informational guidance only and does not constitute legal advice." >> $GITHUB_STEP_SUMMARY
 
-            - name: Upload compliance report
-              if: ${{ always() && inputs.upload-report }}
-              uses: actions/upload-artifact@v4
-              with:
-                  name: compliance-assessment-report
-                  path: |
-                      compliance_output.txt
-                      ${{ inputs.compliance-config-path }}
-                  retention-days: 90
+      - name: Upload compliance report
+        if: ${{ always() && inputs.upload-report }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: compliance-assessment-report
+          path: |
+            compliance_output.txt
+            ${{ inputs.compliance-config-path }}
+          retention-days: 90
 
-            - name: Check for critical warnings (fail build)
-              if: ${{ inputs.fail-on-warnings && steps.run-check.outputs.has-warnings == 'true' }}
-              run: |
-                  echo "::error::Critical compliance warnings detected. Build failed per configuration."
-                  echo "Review the compliance report above and consult with legal counsel."
-                  exit 1
+      - name: Check for critical warnings (fail build)
+        if: ${{ inputs.fail-on-warnings && steps.run-check.outputs.has-warnings == 'true' }}
+        run: |
+          echo "::error::Critical compliance warnings detected. Build failed per configuration."
+          echo "Review the compliance report above and consult with legal counsel."
+          exit 1
 
-            - name: Post success message
-              if: ${{ steps.run-check.outputs.has-warnings == 'false' }}
-              run: |
-                  echo "::notice::✅ Compliance assessment completed without critical warnings"
-                  echo "Continue to review applicable regulations and best practices"
+      - name: Post success message
+        if: ${{ steps.run-check.outputs.has-warnings == 'false' }}
+        run: |
+          echo "::notice::✅ Compliance assessment completed without critical warnings"
+          echo "Continue to review applicable regulations and best practices"

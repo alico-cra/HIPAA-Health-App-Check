@@ -1,5 +1,5 @@
 # HIPAA-Health-App-Check
-Unofficial examination tool for aiding tool developers on health security steps they should be taking. Based on the FTC tool.
+Unofficial examination tool for aiding tool developers on health security steps they should be taking. Based on the [FTC tool](https://www.ftc.gov/business-guidance/resources/mobile-health-apps-interactive-tool).
 
 
 ## Architecture
@@ -30,40 +30,40 @@ Unofficial examination tool for aiding tool developers on health security steps 
 
 ### 1.1 Create and Configure Survey Answers
 1. Create a new `compliance-config.json` file at the root level of your tool repository
-2. Add a single object and answer each question below based on YOUR app:
+2. Add a single object and answer each question below based on YOUR tool:
 
-* Question 1 (collects_health_info): Does/will your app collect, share, use, or maintain health information?
+* Question 1 (collects_health_info): Does/will your tool collect, share, use, or maintain health information?
 * Question 2 (has_identifiable_health_info): Does the information fall within HIPAA's definition of "individually identifiable health information"?
 * Question 3a (is_health_plan): Are you a health plan?
 * Question 3b (is_healthcare_provider): Are you a health care provider (doctor, dentist, psychologist, hospital, clinic, pharmacy)?
 * Question 4a (offers_certified_hit): Do you develop, offer, or sell any certified health information technology?
 * Question 4b (enables_ehi_exchange): Do you enable electronic health information exchange among more than two unaffiliated parties?
-* Question 5 (requires_prescription): Do consumers need a prescription to access your app?
-* Question 6 (works_for_covered_entity): Are you developing, offering, or operating an app on behalf of a HIPAA covered entity?
+* Question 5 (requires_prescription): Do consumers need a prescription to access your tool?
+* Question 6 (works_for_covered_entity): Are you developing, offering, or operating a tool on behalf of a HIPAA covered entity?
 Or are you a subcontractor to another entity providing services to a covered entity?
-* Question 7 (intended_for_medical_use): Is your app intended for:
+* Question 7 (intended_for_medical_use): Is your tool intended for:
     - use in the diagnosis of disease or other conditions?
     - use in the cure, mitigation, treatment, or prevention of disease?
     - to affect the structure or any function of the body?
-* Question 8 (is_administrative_or_lifestyle_only): Is your app solely intended for:
+* Question 8 (is_administrative_or_lifestyle_only): Is your tool solely intended for:
     - administrative support of a health care facility?
     - maintaining or encouraging a healthy lifestyle?
     - serving as electronic patient records?
     - transferring, storing, converting formats, or displaying data?
     - providing limited clinical decision support to a health care provider?
-* Question 9 (is_low_risk): Does your app pose a "low risk" to patients? (helps patients self-manage without specific treatment suggestions, or automates simple tasks)
-* Question 10 (has_fda_regulated_function): Does your app include a device software function that is the focus of FDA's oversight?
-* Question 11 (is_consumer_facing): Is your app for use by consumers?
-* Question 12 (interacts_with_phr): Does your app:
+* Question 9 (is_low_risk): Does your tool pose a "low risk" to patients? (helps patients self-manage without specific treatment suggestions, or automates simple tasks)
+* Question 10 (has_fda_regulated_function): Does your tool include a device software function that is the focus of FDA's oversight?
+* Question 11 (is_consumer_facing): Is your tool for use by consumers?
+* Question 12 (interacts_with_phr): Does your tool:
     - collect, receive, or maintain identifiable health information for consumers?
     - access health information in personal health records?
     - send health information to personal health records?
     - offer products/services through a website that maintains health records?
     - provide services to an entity that maintains health records?
-* Question 13 (intended_for_children): Is your app intended for children?
-* Question 14 (has_child_oriented_features): Does your app use child-oriented activities, incentives, design, music, etc.?
-* Question 15 (children_using_app): Do you have actual knowledge that children are using your app?
-* Question 16 (offers_substance_use_treatment): Does your app offer substance use disorder treatment service or product?
+* Question 13 (intended_for_children): Is your tool intended for children?
+* Question 14 (has_child_oriented_features): Does your tool use child-oriented activities, incentives, design, music, etc.?
+* Question 15 (children_using_app): Do you have actual knowledge that children are using your tool?
+* Question 16 (offers_substance_use_treatment): Does your tool offer substance use disorder treatment service or product?
 
 ```json
 {
@@ -148,7 +148,6 @@ jobs:
 ### Artifacts Generated
 - `compliance-assessment-report/`
   - `compliance_output.txt` - Full text report
-  - `compliance_check.py` - Configuration snapshot
 
 ## Workflow Input Parameters
 
@@ -200,7 +199,7 @@ As your app evolves, update `compliance-config.json` accordingly:
 - New integrations? Reassess compliance needs
 
 ### 2. Don't Ignore Warnings
-Critical warnings indicate potential compliance gaps:
+Warnings indicate potential compliance gaps:
 - ⚠️ **FDA Regulated**: May need pre-market approval
 - ⚠️ **Breach Notification**: Legal requirement with penalties
 - ⚠️ **Children's Data**: COPPA has strict requirements
@@ -209,7 +208,7 @@ Critical warnings indicate potential compliance gaps:
 This tool provides guidance, not legal advice:
 - Use it as a starting point for compliance discussions
 - Share reports with your legal team
-- Get professional review before launch
+- Get professional review
 
 ### 4. Schedule Regular Checks
 The workflow runs weekly by default:
