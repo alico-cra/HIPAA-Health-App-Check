@@ -10,9 +10,9 @@ on:
   # To guarantee Maintained check is occasionally updated. See
   # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
   schedule:
-    - cron: '16 17 * * 0'
+    - cron: "16 17 * * 0"
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 # Declare default permissions as read only.
 permissions: read-all
@@ -73,6 +73,6 @@ jobs:
       # Upload the results to GitHub's code scanning dashboard (optional).
       # Commenting out will disable upload of results to your repo's Code Scanning dashboard
       - name: "Upload to code-scanning"
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@7434149006143a4d75b82a2f411ef15b03ccc2d7
         with:
           sarif_file: results.sarif
