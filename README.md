@@ -1,6 +1,7 @@
 # HIPAA-Health-App-Check
 Unofficial examination tool for aiding tool developers on health security steps they should be taking. Based on the [FTC tool](https://www.ftc.gov/business-guidance/resources/mobile-health-apps-interactive-tool).
 
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/alico-cra/HIPAA-Health-App-Check/badge)](https://scorecard.dev/viewer/?uri=github.com/{alico-cra}/{HIPAA-Health-App-Check})
 
 ## Architecture
 
