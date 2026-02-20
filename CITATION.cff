@@ -1,0 +1,33 @@
+# This CITATION.cff file was generated with cffinit.
+# Visit https://bit.ly/cffinit to generate yours today!
+
+cff-version: 1.2.0
+title: HIPAA Health App Check Tool
+message: >-
+  If you use this software, please cite it using the
+  metadata from this file.
+type: software
+authors:
+  - name: United States Federal Trade Commission
+    address: "600 Pennsylvania Avenue, NW"
+    city: Washington
+    country: US
+    post-code: "20580"
+  - name: "Charles River Analytics, A GRVTY Company"
+    city: Cambridge
+    country: US
+    post-code: 02138
+    website: "https://www.cra.com"
+  - given-names: Nicholas
+    family-names: Alico
+    email: nalico@cra.com
+    affiliation: "Charles River Analytics, a GRVTY Company"
+    orcid: "https://orcid.org/0009-0004-2286-2039"
+repository-code: "https://github.com/alico-cra/HIPAA-Health-App-Check/"
+url: >-
+  https://www.ftc.gov/business-guidance/resources/mobile-health-apps-interactive-tool
+abstract: >-
+  Unofficial examination tool for aiding tool developers on
+  health security steps they should be taking. Based on the
+  FTC tool.
+license: Apache-2.0

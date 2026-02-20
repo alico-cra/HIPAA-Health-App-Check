@@ -233,6 +233,11 @@ The workflow runs weekly by default:
 
 This tool is provided for informational purposes only and does not constitute legal advice. Use of this tool does not guarantee compliance with applicable federal requirements. Always consult with qualified legal counsel to ensure full compliance with all applicable laws and regulations.
 
+The software version of this tool is offered under the Apache-2.0 license.
+
+## Citation
+- See [CITATION.cff](./CITATION.cff)
+
 ---
 
-**Questions?** Open an issue or contact Charles River Analytics for further details.
+**Questions?** Open an issue or contact Charles River Analytics, a GRVTY Company for further details.
