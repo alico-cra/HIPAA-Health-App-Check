@@ -1,0 +1,10 @@
+version: 2
+updates:
+  # Enable version updates for the pip package ecosystem
+  - package-ecosystem: "pip"
+    # Look for the manifest files (requirements.txt, setup.py, or pyproject.toml)
+    # in the root directory of the repository
+    directory: "/"
+    # Set the update schedule to daily
+    schedule:
+      interval: "daily"
