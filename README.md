@@ -2,7 +2,7 @@
 Unofficial examination tool for aiding tool developers on health security steps they should be taking. Based on the [FTC tool](https://www.ftc.gov/business-guidance/resources/mobile-health-apps-interactive-tool).
 
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/alico-cra/HIPAA-Health-App-Check/badge)](https://scorecard.dev/viewer/?uri=github.com/{alico-cra}/{HIPAA-Health-App-Check})
-<!-- token-count --><!-- /token-count -->
+<!-- token-count --><a href="https://github.com/qwibitai/nanoclaw/tree/main/repo-tokens">3.9k tokens · 2% of context window</a><!-- /token-count -->
 
 ## Architecture
 
