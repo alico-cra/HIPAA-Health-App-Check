@@ -1,6 +1,9 @@
 name: Generate Project Tokens Badge
 on: push
 
+permissions:
+    contents: write
+
 jobs:
     token-count:
         runs-on: ubuntu-latest
