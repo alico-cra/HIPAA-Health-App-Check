@@ -10,4 +10,4 @@ license = "Apache-2.0"
 license-files = ["LICENSE.txt"]
 
 [dependency-groups]
-dev = ["pylint>=4.0.0"]
+dev = ["pylint>=4.0.5"]
